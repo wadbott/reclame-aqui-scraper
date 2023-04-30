@@ -25,22 +25,27 @@ def url_collector(driver, file, id_page, pages, conn, cursor):
 
         url = constants.COMPLAIN_LIST_BASE_URL.format(id_page)
         cont = 1
-
+        
         val = re.search(r'pagina=[0-9]+', url, re.MULTILINE)
         url = url.replace(val.group(0), 'pagina={}')
         lista_urls = []
+       
         while cont <= int(pages):
             driver.get(url.format(cont))
+            print(f'URL: {url.format(cont)}')
             logging.info("Página {}".format(cont))
             time.sleep(5)
             url_pg = driver.find_elements(
                 By.CSS_SELECTOR, constants.COMPLAIN_URL_SELECTOR)
+
+            print(f'element url_pg {url_pg}')
             for u in url_pg:
                 logging.info(u.get_attribute('href'))
                 lista_urls.append(u.get_attribute('href'))
 
             logging.info("Página {} OK".format(cont))
             cont = cont + 1
+        print(f'lista de urls: {lista_urls}')
         gravador_bd(lista_urls, id_page, conn, cursor)
         logging.info('Coleta de URLs concluída para o ID: {}'.format(file))
 
@@ -134,21 +139,25 @@ def create_complaint(url, driver):
         categoria1 = driver.find_element(
             By.CSS_SELECTOR, constants.COMPLAIN_CATEGORY_1_SELECTOR)
         reclamacao.problem_type = categoria1.text
-    except NoSuchElementException:
+    except NoSuchElementException as e:
+        print(e)
         pass
 
     try:
         categoria2 = driver.find_element(
             By.CSS_SELECTOR, constants.COMPLAIN_CATEGORY_2_SELECTOR)
         reclamacao.product_type = categoria2.text
-    except NoSuchElementException:
+    except NoSuchElementException as e:
+        print(e)
         pass
 
     try:
         categoria3 = driver.find_element(
             By.CSS_SELECTOR, constants.COMPLAIN_CATEGORY_3_SELECTOR)
         reclamacao.category = categoria3.text
-    except NoSuchElementException:
+    except NoSuchElementException as e:
+        print(e)
         pass
 
+    print(reclamacao)
     return reclamacao

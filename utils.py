@@ -1,8 +1,7 @@
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.firefox.options import Options
+import undetected_chromedriver as uc
 
 import csv
 import os
@@ -26,9 +25,11 @@ def arguments():
 
 
 def driver_chrome():
-    chrome_options = Options()
-    chrome_options.headless = True
-    driver = webdriver.Chrome(options=chrome_options, executable_path=ChromeDriverManager(
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-gpu")
+    driver = uc.Chrome(options=chrome_options, executable_path=ChromeDriverManager(
     ).install(), service_log_path=None)
     return driver
 

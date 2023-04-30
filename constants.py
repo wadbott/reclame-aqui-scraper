@@ -1,6 +1,7 @@
 COMPLAIN_LIST_BASE_URL = "https://www.reclameaqui.com.br/empresa/{}/lista-reclamacoes/?pagina=1"
 
-COMPLAIN_URL_SELECTOR = "div.sc-1sm4sxr-0 a"
+COMPLAIN_URL_SELECTOR = "div.sc-1sm4sxr-0 a"  
+
 COMPLAIN_TEXT_SELECTOR = ".lzlu7c-17"
 COMPLAIN_TITLE_SELECTOR = ".lzlu7c-3"
 COMPLAIN_LOCAL_SELECTOR = "div.lzlu7c-6:nth-child(1) > span:nth-child(2)"
